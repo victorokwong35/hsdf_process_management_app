@@ -1,0 +1,25 @@
+.header_right {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  align-items: center;
+  padding: 35px;
+  padding-right: 42px;
+}
+
+.header_profile_info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header_profile_info img {
+  width: 50px;
+}
+
+.profile_info {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}

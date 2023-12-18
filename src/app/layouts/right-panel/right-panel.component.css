@@ -1,0 +1,14 @@
+.right_section {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.right_header {
+  height: 110px;
+}
+
+.right {
+  background-color: var(--very_light_blue);
+  height: 100vh;
+}

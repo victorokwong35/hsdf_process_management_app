@@ -1,0 +1,11 @@
+.header_left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 10px 35px 10px;
+}
+
+
+/* .header_left img {
+  margin-top: 10px;
+} */
