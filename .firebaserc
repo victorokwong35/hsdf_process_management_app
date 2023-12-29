@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "process-management-722a9": {
+      "hosting": {
+        "hsdf-process-management": [
+          "process-management-722a9"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "process-management-722a9"
+  }
+}

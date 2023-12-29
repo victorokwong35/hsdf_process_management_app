@@ -1,0 +1,72 @@
+<div class="signup_container">
+
+  <div class="row">
+    <div class="col-6 left">
+      <img class="img-fluid" src="{{loginImage}}" alt="">
+    </div>
+
+    <div class="col-6 right">
+
+      <div class="col-12">
+        <h4>Sign up</h4>
+        <div class="form_box">
+          <div *ngIf="hasError" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+          </div>
+          <div *ngIf="noErrors" class="alert alert-success" role="alert">
+            Your registration was successful. Please navigate to the login screen to login
+          </div>
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="form-group col">
+              <label for="name">Full Name</label>
+              <input class="form-control" formControlName="name" type="text" placeholder="First and Last Name">
+              <div *ngIf="signupForm.get('name')?.hasError('required') && signupForm.get('name')?.touched">
+                Name is required.
+              </div>
+            </div>
+            <div class="form-group col">
+              <label for="email">Corporate Email</label>
+              <input class="form-control" formControlName="email" type="email" placeholder="HSDF Email Address">
+              <div *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
+                Email is required.
+              </div>
+              <div *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
+                Please enter a valid email address.
+              </div>
+            </div>
+            <div class="form-group col">
+              <label for="password">Enter Password</label>
+              <input class="form-control" formControlName="password" type="password" placeholder="password">
+              <div *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched">
+                Password is required.
+              </div>
+              <div *ngIf="signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched">
+                Password must be at least 6 characters.
+              </div>
+            </div>
+            <div class="form-group col">
+              <label for="password">Retype Password</label>
+              <input class="form-control" formControlName="confirm_password" type="password"
+                placeholder="retype password above">
+              <div *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirm_password')?.touched">
+                Passwords do not match.
+              </div>
+            </div>
+            <br>
+            <div class="form-group col">
+              <div *ngIf="loading" class="alert alert-light" role="alert">
+                Please hold, signing you up...
+              </div>
+              <button class="btn btn_blue col-6" type="submit" [disabled]="signupForm.invalid">Sign-Up</button>
+              <span class="col-6 login_link" routerLink="/login">Got an account? <strong>Login</strong></span>
+            </div>
+          </form>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

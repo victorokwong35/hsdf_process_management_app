@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "hsdf-process-management",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

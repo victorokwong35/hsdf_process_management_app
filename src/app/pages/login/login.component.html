@@ -1,0 +1,82 @@
+<div class="signup_container">
+
+  <div class="row">
+    <div class="col-6 left">
+      <img class="img-fluid" src="{{loginImage}}" alt="">
+    </div>
+
+    <div class="col-6 right">
+
+      <div class="col-12">
+        <h4>Login</h4>
+        <p>{{email}}</p>
+        <p>{{password}}</p>
+        <div class="form_box">
+          <div *ngIf="hasError" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+          </div>
+          <div *ngIf="noErrors" class="alert alert-success" role="alert">
+            Login successful.
+          </div>
+          <div *ngIf="loading" class="alert alert-warning" role="alert">
+            Please hold, logging in...
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group col">
+              <label for="email">Corporate Email</label>
+              <input [(ngModel)]="email" class="form-control" formControlName="email" type="email"
+                placeholder="HSDF Email Address">
+              <div *ngIf="loginForm.get('email')!.hasError('required') && loginForm.get('email')!.touched">
+                Email is required.
+              </div>
+              <div *ngIf="loginForm.get('email')!.hasError('email') && loginForm.get('email')!.touched">
+                Please enter a valid email address.
+              </div>
+            </div>
+
+            <div class="form-group col">
+              <label for="password">Enter Password</label>
+              <input [(ngModel)]="password" class="form-control" formControlName="password" type="password"
+                placeholder="password">
+              <div *ngIf="loginForm.get('password')!.hasError('required') && loginForm.get('password')!.touched">
+                Password is required.
+              </div>
+              <div *ngIf="loginForm.get('password')!.hasError('minlength') && loginForm.get('password')!.touched">
+                Password must be at least 6 characters.
+              </div>
+            </div>
+
+            <br>
+
+            <div class="form-group col">
+              <button class="btn btn_blue col-6" type="submit" [disabled]="loginForm.invalid">Login</button>
+              <span class="col-6 login_link" routerLink="/signup">Not Registered? <strong>Signup</strong></span>
+            </div>
+          </form>
+
+
+          <!--
+          <form>
+            <div class="form-group col">
+              <label for="email">Corporate Email</label>
+              <input class="form-control" type="email" name="email" placeholder="HSDF Email Address">
+            </div>
+            <div class="form-group col">
+              <label for="password">Enter Password</label>
+              <input class="form-control" type="password" name="password" placeholder="password">
+            </div>
+
+            <br>
+
+            <div class="form-group col">
+              <button class="btn btn_blue col-6" type="submit">Login</button>
+              <span class="col-6 login_link" routerLink="/signup">Not Registered? <strong>Signup</strong></span>
+            </div>
+
+          </form> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -4,9 +4,9 @@
   </div>
   <div class="body_left">
     <div class="dash_navigators">
-      <div class="btn_group" routerLink="dashboard" routerLinkActive="active">
+      <div class="btn_group" routerLink="home" routerLinkActive="active">
         <img src="{{dashboardIcon}}" alt="">
-        <span>Dashboard</span>
+        <span class="dash_nav_text">Dashboard</span>
       </div>
       <div class="btn_group" routerLink="all-request" routerLinkActive="active">
         <img src="{{allRequestIcon}}" alt="">
@@ -14,22 +14,22 @@
       </div>
       <div class="btn_group" routerLink="pending-request" routerLinkActive="active">
         <img src="{{pendingRequestIcon}}" alt="">
-        <span>Pending Requests</span>
+        <span class="dash_nav_text">Pending Requests</span>
       </div>
       <div class="btn_group">
         <img src="{{approvedRequestIcon}}" alt="">
-        <span>Approved</span>
+        <span class="dash_nav_text">Approved</span>
       </div>
       <div class="btn_group">
         <img src="{{disbursedIcon}}" alt="">
-        <span>Disbursed</span>
+        <span class="dash_nav_text">Disbursed</span>
       </div>
     </div>
 
     <div class="logout">
-      <div class="btn_group">
+      <div class="btn_group" (click)="logout()">
         <img src="{{logoutIcon}}" alt="">
-        <span>Logout</span>
+        <span class="dash_nav_text">Logout</span>
       </div>
     </div>
 

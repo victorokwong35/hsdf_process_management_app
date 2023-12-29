@@ -51,7 +51,9 @@
 }
 
 .dash_nav_text {
-  font-size: 18px;
+  font-size: var(--left_nav_text);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .logout {

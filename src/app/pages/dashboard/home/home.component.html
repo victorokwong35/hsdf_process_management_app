@@ -1,0 +1,202 @@
+<div class="container dashboard_right">
+
+  <!-- Funding Request Form Modal -->
+  <div class="modal fade" id="requisition_form" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Request for Funding</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Requisition Main Form -->
+        <div class="modal-body">
+          <form #requisitionForm="ngForm" (ngSubmit)="sendRequest(requisitionForm)">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="currencyType">Select Currency Type</label>
+                <select class="form-control" [(ngModel)]="currency" name="currencyType" (change)="getCurrency()">
+                  <option value="NGN">NGN Naira</option>
+                  <option value="USD">USD US-Dollar</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="requestedBy">Requested by</label>
+                <input type="text" class="form-control" id="employee_name" placeholder="{{ userName }}"
+                  [(ngModel)]="userName" name="requestedBy">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="paymentType">Payment type</label>
+                <select class="form-control" [(ngModel)]="paymentType" name="paymentType"
+                  (change)="toggleVendorNameVisibility()">
+                  <option value="Payment to Vendor">Payment to Vendor</option>
+                  <option value="Payment to Employee">Payment to Employee</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="advanceType">Advance type</label>
+                <select class="form-control" [(ngModel)]="advanceType" name="advanceType"
+                  (change)="toggleAdvanceType()">
+                  <option value="Advance to Vendor">Advance to Vendor</option>
+                  <option value="Advance to Employee">Advance to Employee</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4" *ngIf="showVendorName">
+                <label for="vendorName">Enter vendor name</label>
+                <input type="text" class="form-control" id="vendor_name" placeholder="Vendor name"
+                  [(ngModel)]="vendorName" name="vendorName">
+              </div>
+              <div class="form-group col-md-4" *ngIf="showEmployeeCollectorName">
+                <label for="employeeCollectorName">Enter employee name</label>
+                <input type="text" class="form-control" id="employee_name" placeholder="{{ userName }}"
+                  [(ngModel)]="employeeCollectorName" name="employeeCollectorName">
+              </div>
+              <div class="form-group col-md-4" *ngIf="showVendorAdvance">
+                <label for="vendorAdvance">Vendor Advance</label>
+                <input type="number" class="form-control" id="vendor_advance" placeholder="{{ currency }}30000"
+                  [(ngModel)]="vendorAdvance" name="vendorAdvance">
+              </div>
+              <div class="form-group col-md-4" *ngIf="showEmployeeAdvance">
+                <label for="employeeAdvance">Employee Advance</label>
+                <input type="number" class="form-control" id="employee_advance" placeholder="{{ currency }}30000"
+                  [(ngModel)]="employeeAdvance" name="employeeAdvance">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="requestDate">Date</label>
+                <input type="date" name="requestDate" id="request_date" class="form-control">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="requestAmount">Request Amount</label>
+                <input type="number" name="requestAmount" id="request_amount" class="form-control"
+                  placeholder="{{ currency }}50000">
+              </div>
+              <div class="form-group col-md-8">
+                <label for="amountInWords">Amount in words</label>
+                <input type="text" id="amount_in_words" class="form-control"
+                  placeholder="Fifty thousand naira ({{ currency }})">
+              </div>
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="payableTo">Payable to:</label>
+                <input type="text" name="payableTo" id="payable_to" class="form-control"
+                  placeholder="Vendor or employee name">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="bankName">Bank Name</label>
+                <input type="text" id="bank_name" class="form-control" placeholder="Bank name">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="bankAccountNo">Bank Account No</label>
+                <input type="number" id="bank_account_no" class="form-control" placeholder="Bank account number">
+              </div>
+            </div>
+            <!-- Optional fields -->
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+              </div>
+            </div>
+            <hr>
+            <!-- Project list and expenses -->
+            <div class="form-row" *ngFor="let expense of projectExpenses; let i = index">
+              <div class="form-group col-2">
+                <label for="projectCode">Project Code</label>
+                <input type="text" id="project_code" class="form-control" placeholder="HBD"
+                  [(ngModel)]="expense.projectCode" name="projectCode{{i}}">
+              </div>
+              <div class="form-group col-2">
+                <label for="internalOrder">Internal Order</label>
+                <input type="text" id="internal_order" class="form-control" placeholder="HBD/ODC"
+                  [(ngModel)]="expense.internalOrder" name="internalOrder{{i}}">
+              </div>
+              <div class="form-group col-2">
+                <label for="accountsCode">Accounts Code</label>
+                <input type="text" id="accounts_code" class="form-control" placeholder="63007000"
+                  [(ngModel)]="expense.accountsCode" name="accountsCode{{i}}">
+              </div>
+              <div class="col">
+                <label for="itemAmount">Item Amount</label>
+                <div class="form-group input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">{{ currency }}</div>
+                  </div>
+                  <input type="text" class="form-control" id="item_amount" placeholder="Username"
+                    [(ngModel)]="expense.itemAmount" name="itemAmount{{i}}">
+                </div>
+              </div>
+              <div class="form-group col-2">
+                <label for="expenseDetails">Expense Details</label>
+                <input type="number" id="expense_details" class="form-control" placeholder="eg: 150000"
+                  [(ngModel)]="expense.expenseDetails" name="expenseDetails{{i}}">
+              </div>
+            </div>
+            <!-- Add Button -->
+            <div class="form-row">
+              <div class="form-group col-3">
+                <button class="btn btn-primary btn_blue" (click)="addExpense()">Add Expense</button>
+              </div>
+              <div *ngIf="count >= 1" class="form-group col-3">
+                <button class="btn btn-danger" (click)="removeExpense($event)">Delete Expense</button>
+              </div>
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="form-group col-3">
+                <label for="approvingLineManager">Approving Line Manager</label>
+                <select class="form-control" name="approvingLineManager" id="approving_line_manager">
+                  <option value="Olo Okoye">Olo Okoye</option>
+                  <option value="Yewande">Yewande</option>
+                </select>
+              </div>
+            </div>
+            <br><br>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit for Approval</button>
+            </div>
+          </form>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <div class="dropdown">
+      <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Create New Request
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#requisition_form">Requisition</a>
+        <a class="dropdown-item" href="#">Travel Requisition</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col request_list">
+      <p>No request yet</p>
+    </div>
+  </div>
+
+
+</div>

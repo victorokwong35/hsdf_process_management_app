@@ -1,0 +1,191 @@
+<form #requisitionForm="ngForm" (ngSubmit)="sendRequest(requisitionForm)">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">Select Currency Type</label>
+      <select class="form-control" [(ngModel)]="currency" name="paymentType" (change)="getCurrency()">
+        <option value="NGN">NGN Naira</option>
+        <option value="USD">USD US-Dollar</option>
+      </select>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">Requested by</label>
+      <input type="text" class="form-control" id="employee_name" placeholder="{{ userName }}" [(ngModel)]="userName"
+        name="employeeName">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="paymentType">Payment type</label>
+      <select class="form-control" [(ngModel)]="paymentType" name="paymentType" (change)="toggleVendorNameVisibility()">
+        <option value="Payment to Vendor">Payment to Vendor</option>
+        <option value="Payment to Employee">Payment to Employee</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="advanceType">Advance type</label>
+      <select class="form-control" [(ngModel)]="advanceType" name="advanceType" (change)="toggleAdvanceType()">
+        <option value="Advance to Vendor">Advance to Vendor</option>
+        <option value="Advance to Employee">Advance to Employee</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4" *ngIf="showVendorName">
+      <label for="vendor_name">Enter vendor name</label>
+      <input type="text" class="form-control" id="vendor_name" placeholder="Vendor name" [(ngModel)]="vendorName"
+        name="vendorName">
+    </div>
+    <div class="form-group col-md-4" *ngIf="showEmployeeCollectorName">
+      <label for="vendor_name">Enter employee name</label>
+      <input type="text" class="form-control" id="vendor_name" placeholder="{{userName}}"
+        [(ngModel)]="employeeCollectorName" name="vendorName">
+    </div>
+
+    <div class="form-group col-md-4" *ngIf="showVendorAdvance">
+      <label for="vendor_name">Vendor Advance</label>
+      <input type="number" class="form-control" id="vendor_name" placeholder="{{currency}}30000"
+        [(ngModel)]="vendorAdvance" name="vendorName">
+    </div>
+
+    <div class="form-group col-md-4" *ngIf="showEmployeeAdvance">
+      <label for="vendor_name">Employee Advance</label>
+      <input type="number" class="form-control" id="vendor_name" placeholder="{{currency}}30000"
+        [(ngModel)]="employeeAdvance" name="vendorName">
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="">Date</label>
+      <input type="date" name="date" id="request_date" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="">Request Amount</label>
+      <input type="number" name="request_amount" id="" class="form-control" placeholder="{{currency}}50000">
+    </div>
+    <div class="form-group col-md-8">
+      <label for="">Amount in words</label>
+      <input type="text" id="" class="form-control" placeholder="Fifty thousand naira ({{currency}})">
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="">Payable to:</label>
+      <input type="text" name="request_amount" id="" class="form-control" placeholder="Vender or employee name">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="">Bank Name</label>
+      <input type="text" id="" class="form-control" placeholder="Bank name">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="">Bank Account No</label>
+      <input type="number" id="" class="form-control" placeholder="Bank account number">
+    </div>
+  </div>
+
+  <!-- Optional fields -->
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="">Description</label>
+      <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+    </div>
+  </div>
+  <hr>
+
+  <!-- Project list and expenses -->
+  <div class="form-row" *ngFor="let expense of projectExpenses; let i = index">
+    <div class="form-group col-2">
+      <label for="">Project Code</label>
+      <input type="text" id="" class="form-control" placeholder="HBD" [(ngModel)]="expense.projectCode">
+    </div>
+    <div class="form-group col-2">
+      <label for="">Internal Order</label>
+      <input type="text" id="" class="form-control" placeholder="HBD/ODC" [(ngModel)]="expense.internalOrder">
+    </div>
+    <div class="form-group col-2">
+      <label for="">Accounts Code</label>
+      <input type="text" id="" class="form-control" placeholder="63007000" [(ngModel)]="expense.accountsCode">
+    </div>
+    <div class="col">
+      <label>Item Amount</label>
+      <div class="form-group input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">{{currency}}</div>
+        </div>
+        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username"
+          [(ngModel)]="expense.itemAmount">
+      </div>
+    </div>
+    <div class="form-group col-2">
+      <label for="">Expense Details</label>
+      <input type="number" id="" class="form-control" placeholder="eg: 150000" [(ngModel)]="expense.expenseDetails">
+    </div>
+  </div>
+
+  <!-- Add Button -->
+  <div class="form-row">
+    <div class="form-group col-3">
+      <button class="btn btn-primary btn_blue" (click)="addExpense()">Add Expense</button>
+    </div>
+    <div *ngIf="count >= 1" class="form-group col-3">
+      <button class="btn btn-danger" (click)="removeExpense($event)">Delete Expense</button>
+    </div>
+  </div>
+
+  <hr>
+  <div class="form-row">
+    <div class="form-group col-3">
+      <label for="">Approving Line Manager</label>
+      <select class="form-control" name="" id="">
+        <option value="">Olo Okoye</option>
+        <option value="">Yewande</option>
+      </select>
+    </div>
+  </div>
+  <br><br>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">Submit for Approval</button>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+<form>
+  <div class="form-group col">
+    <label for="name">Full Name</label>
+    <input class="form-control" type="text" name="name" placeholder="First and Last Name">
+  </div>
+  <div class="form-group col">
+    <label for="email">Corporate Email</label>
+    <input class="form-control" type="email" name="email" placeholder="HSDF Email Address">
+  </div>
+  <div class="form-group col">
+    <label for="password">Enter Password</label>
+    <input class="form-control" type="password" name="password" placeholder="password">
+  </div>
+  <div class="form-group col">
+    <label for="password">Retype Password</label>
+    <input class="form-control" type="password" name="confirm_password" placeholder="retype password above">
+  </div>
+  <br>
+
+  <div class="form-group col">
+    <button class="btn btn_blue col-6" type="submit">Sign-Up</button>
+    <span class="col-6 login_link" routerLink="/login">Got an account? <strong>Login</strong></span>
+  </div>
+
+</form>

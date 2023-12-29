@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalContentComponent } from './modal-content/modal-content.component';
+import { FormsModule } from '@angular/forms';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { TokenService } from 'src/app/services/token.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -8,17 +10,15 @@ import { ModalContentComponent } from './modal-content/modal-content.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  modalRef!: BsModalRef;
 
-
-  constructor(private modalService: BsModalService) { }
-
-  openModal() {
-    this.modalRef = this.modalService.show(ModalContentComponent, {
-      class: 'modal-lg', // Use 'modal-lg' for a large modal
-      backdrop: 'static',
-      keyboard: false,
-    });
+  constructor(private tokenService: TokenService) {
 
   }
+
+  ngOnInit(): void {
+    const token = this.tokenService.getToken()
+
+  }
+
+
 }
